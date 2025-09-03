@@ -1,464 +1,416 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reexport statistika</title>
-  <style>
-    :root{
-      --bg:#0e0f13; --card:#151822; --muted:#8b90a1; --text:#e9ecf1; --accent:#6ee7b7; --accent-2:#60a5fa; --danger:#ef4444;
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; background:linear-gradient(180deg,#0b0c10,#121725 60%,#0b0c10); color:var(--text)}
-    .app{display:grid; grid-template-columns: 360px 1fr; gap:18px; padding:22px; min-height:100vh}
-    .card{background:var(--card); border:1px solid #202438; border-radius:var(--radius); box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    header.card{grid-column:1/-1; padding:16px 18px; display:flex; align-items:center; justify-content:space-between}
-    header h1{font-size:20px; margin:0}
-    header small{color:var(--muted)}
-    .left{display:flex; flex-direction:column; gap:18px}
-    .section{padding:18px}
-    .section h2{margin:0 0 12px; font-size:16px}
-    label{display:block; font-size:13px; color:var(--muted); margin:8px 0 6px}
-    input, select, button, textarea{width:100%; padding:10px 12px; background:#101321; color:var(--text); border:1px solid #252a41; border-radius:12px; outline:none}
-    input[type="checkbox"]{width:auto; transform:scale(1.1); margin-right:8px}
-    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
-    .actions{display:flex; gap:10px; margin-top:12px}
-    button{cursor:pointer; border:1px solid #2b3050; background:linear-gradient(180deg,#1b2040,#131833); transition:.2s}
-    button:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.25)}
-    .btn-accent{border-color:#1e3a2f; background:linear-gradient(180deg,#164430,#0f2d21); color:#a7f3d0}
-    .btn-danger{border-color:#3b1e20; background:linear-gradient(180deg,#3a1416,#2a0d10); color:#fecaca}
-    .muted{color:var(--muted)}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reexport statistika</title>
+<style>
+:root{
+  --bg:#0e0f13; --card:#151822; --muted:#8b90a1; --text:#e9ecf1; --accent:#6ee7b7; --accent-2:#60a5fa; --danger:#ef4444;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; background:linear-gradient(180deg,#0b0c10,#121725 60%,#0b0c10); color:var(--text)}
+.app{display:grid; grid-template-columns: 360px 1fr; gap:18px; padding:22px; min-height:100vh}
+.card{background:var(--card); border:1px solid #202438; border-radius:var(--radius); box-shadow:0 10px 30px rgba(0,0,0,.25)}
+header.card{grid-column:1/-1; padding:16px 18px; display:flex; align-items:center; justify-content:space-between}
+header h1{font-size:20px; margin:0}
+header small{color:var(--muted)}
+.left{display:flex; flex-direction:column; gap:18px}
+.section{padding:18px}
+.section h2{margin:0 0 12px; font-size:16px}
+label{display:block; font-size:13px; color:var(--muted); margin:8px 0 6px}
+input, select, button, textarea{width:100%; padding:10px 12px; background:#101321; color:var(--text); border:1px solid #252a41; border-radius:12px; outline:none}
+input[type="checkbox"]{width:auto; transform:scale(1.1); margin-right:8px}
+.row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+.actions{display:flex; gap:10px; margin-top:12px}
+button{cursor:pointer; border:1px solid #2b3050; background:linear-gradient(180deg,#1b2040,#131833); transition:.2s}
+button:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.btn-accent{border-color:#1e3a2f; background:linear-gradient(180deg,#164430,#0f2d21); color:#a7f3d0}
+.btn-danger{border-color:#3b1e20; background:linear-gradient(180deg,#3a1416,#2a0d10); color:#fecaca}
+.muted{color:var(--muted)}
 
-    .grid{display:grid; grid-template-columns: repeat(3,1fr); gap:18px; padding:18px}
-    .stat{padding:16px; border-radius:16px; border:1px solid #212640; background:linear-gradient(180deg,#15192b,#111629)}
-    .stat h3{margin:0 0 6px; font-size:14px; color:var(--muted)}
-    .stat .big{font-size:26px; font-weight:700}
-    .stat .sub{font-size:12px; color:var(--muted)}
+.grid{display:grid; grid-template-columns: repeat(3,1fr); gap:18px; padding:18px}
+.stat{padding:16px; border-radius:16px; border:1px solid #212640; background:linear-gradient(180deg,#15192b,#111629)}
+.stat h3{margin:0 0 6px; font-size:14px; color:var(--muted)}
+.stat .big{font-size:26px; font-weight:700}
+.stat .sub{font-size:12px; color:var(--muted)}
 
-    .table{padding:18px}
-    table{width:100%; border-collapse:collapse; font-size:14px}
-    th,td{padding:10px 12px; border-bottom:1px solid #232944}
-    th{color:#9aa0b6; text-align:left; font-weight:600}
-    tr:hover td{background:#0f1326}
+.table{padding:18px}
+table{width:100%; border-collapse:collapse; font-size:14px}
+th,td{padding:10px 12px; border-bottom:1px solid #232944}
+th{color:#9aa0b6; text-align:left; font-weight:600}
+tr:hover td{background:#0f1326}
 
-    .flex{display:flex; gap:10px; align-items:center}
-    .right-head{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid #212640}
-    .kpis{display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; padding:14px 18px}
-    .kpi{border:1px solid #212640; border-radius:14px; padding:12px; background:linear-gradient(180deg,#151a2c,#0f1424)}
-    .kpi b{font-size:20px}
+.flex{display:flex; gap:10px; align-items:center}
+.right-head{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid #212640}
+.kpis{display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; padding:14px 18px}
+.kpi{border:1px solid #212640; border-radius:14px; padding:12px; background:linear-gradient(180deg,#151a2c,#0f1424)}
+.kpi b{font-size:20px}
 
-    .aside{padding:18px; border-top:1px dashed #273154}
-    .tag{display:inline-block; font-size:11px; padding:4px 8px; border:1px solid #233159; border-radius:999px; color:#c7d2fe}
+.aside{padding:18px; border-top:1px dashed #273154}
+.tag{display:inline-block; font-size:11px; padding:4px 8px; border:1px solid #233159; border-radius:999px; color:#c7d2fe}
 
-    @media(max-width:1024px){
-      .app{grid-template-columns:1fr}
-    }
-  </style>
+@media(max-width:1024px){
+  .app{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <div class="app">
-    <header class="card">
-      <div>
-        <h1>Reexport statistika</h1>
-        <small class="muted">Unos + statistika po danu / nedelji / mesecu (Firebase)</small>
-      </div>
-      <div class="flex">
-        <span class="tag">v1</span>
-      </div>
-    </header>
-
-    <!-- Leva kolona: unos + filteri + ukupno unetih stanova -->
-    <div class="left">
-      <section class="card section">
-        <h2>Unos reexporta</h2>
-        <div class="row">
-          <div>
-            <label for="datum">Datum</label>
-            <input type="date" id="datum" />
-          </div>
-          <div>
-            <label for="sifra">Šifra</label>
-            <input type="text" id="sifra" placeholder="npr. 4213" />
-          </div>
-        </div>
-        <div class="row">
-          <div>
-            <label for="razlog">Razlog</label>
-            <select id="razlog">
-              <option value="Ugovor">Ugovor</option>
-              <option value="Slike">Slike</option>
-              <option value="Checkbox">Checkbox</option>
-            </select>
-          </div>
-          <div>
-            <label for="agent">Agent</label>
-            <select id="agent">
-              <option value="Jovan">Jovan</option>
-              <option value="Marija">Marija</option>
-              <option value="Tijana">Tijana</option>
-            </select>
-          </div>
-        </div>
-        <div class="flex" style="margin-top:6px">
-          <label class="flex" style="gap:8px; margin:0">
-            <input type="checkbox" id="realizovan" /> Realizovan teren
-          </label>
-        </div>
-        <div class="actions">
-          <button id="sacuvaj" class="btn-accent">Sačuvaj unos</button>
-          <button id="reset" type="button">Očisti formu</button>
-        </div>
-        <div class="muted" id="saveStatus" style="margin-top:8px"></div>
-      </section>
-
-      <section class="card section">
-        <h2>Filter perioda</h2>
-        <div class="row">
-          <div>
-            <label for="tipPerioda">Tip perioda</label>
-            <select id="tipPerioda">
-              <option value="dan">Dan</option>
-              <option value="nedelja">Nedelja (ISO)</option>
-              <option value="mesec">Mesec</option>
-              <option value="raspon">Raspon datuma</option>
-            </select>
-          </div>
-          <div id="poljeDan">
-            <label for="datumFilter">Datum</label>
-            <input type="date" id="datumFilter" />
-          </div>
-        </div>
-        <div class="row" id="poljaNedelja" style="display:none">
-          <div>
-            <label for="nedeljaDatum">Datum u nedelji</label>
-            <input type="date" id="nedeljaDatum" />
-          </div>
-        </div>
-        <div class="row" id="poljaMesec" style="display:none">
-          <div>
-            <label for="mesec">Mesec</label>
-            <input type="month" id="mesec" />
-          </div>
-        </div>
-        <div class="row" id="poljaRaspon" style="display:none">
-          <div>
-            <label for="od">Od</label>
-            <input type="date" id="od" />
-          </div>
-          <div>
-            <label for="do">Do</label>
-            <input type="date" id="do" />
-          </div>
-        </div>
-        <div class="actions">
-          <button id="primeniFilter">Primeni filter</button>
-          <button id="osvezi">Osveži</button>
-        </div>
-      </section>
-
-      <section class="card section">
-        <h2>Ukupan broj unetih stanova</h2>
-        <label for="ukupnoStanova">Unesi broj (za procenat reexporta)</label>
-        <input type="number" id="ukupnoStanova" placeholder="npr. 120" min="0" />
-      </section>
+<div class="app">
+  <header class="card">
+    <div>
+      <h1>Reexport statistika</h1>
+      <small class= (Firebase)</small>
     </div>
+    <div class="flex"><span class="tag"></span></div>
+  </header>
 
-    <!-- Desna kolona: statistika + tabela -->
-    <section class="card">
-      <div class="right-head">
-        <div class="flex">
-          <strong>Statistika</strong>
-          <span id="periodBadge" class="tag" style="margin-left:10px">—</span>
+  <div class="left">
+    <!-- REEXPORT -->
+    <section class="card section">
+      <h2>Unos reexporta</h2>
+      <div class="row">
+        <div>
+          <label for="datumReexport">Datum</label>
+          <input type="date" id="datumReexport" />
         </div>
-        <small class="muted">Rezultati se računaju na klijentu</small>
-      </div>
-
-      <div class="kpis">
-        <div class="kpi"><div class="muted">Ukupno reexporta</div><b id="kpiUkupno">0</b></div>
-        <div class="kpi"><div class="muted">Ugovor</div><b id="kpiUgovor">0</b></div>
-        <div class="kpi"><div class="muted">Slike</div><b id="kpiSlike">0</b></div>
-        <div class="kpi"><div class="muted">Checkbox</div><b id="kpiCheckbox">0</b></div>
-      </div>
-
-      <div class="grid">
-        <div class="stat">
-          <h3>Po agentu (reexporti)</h3>
-          <div class="big" id="poAgentu">—</div>
-          <div class="sub">Zbir po Jovan / Marija / Tijana</div>
-        </div>
-        <div class="stat">
-          <h3>Procenat reexporta</h3>
-          <div class="big" id="procenatReexporta">—</div>
-          <div class="sub">u odnosu na "Ukupan broj unetih stanova"</div>
-        </div>
-        <div class="stat">
-          <h3>Realizovani tereni (po agentu)</h3>
-          <div class="big" id="realizacijaAgent">—</div>
-          <div class="sub">uneto vs realizovano, procenat</div>
+        <div>
+          <label for="sifra">Šifra</label>
+          <input type="text" id="sifra" placeholder="npr. 4213" />
         </div>
       </div>
-
-      <div class="table">
-        <table>
-          <thead>
-            <tr>
-              <th>Datum</th>
-              <th>Šifra</th>
-              <th>Razlog</th>
-              <th>Agent</th>
-              <th>Realizovano</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="tabela"></tbody>
-        </table>
+      <div class="row">
+        <div>
+          <label for="razlog">Razlog</label>
+          <select id="razlog">
+            <option value="Ugovor">Ugovor</option>
+            <option value="Slike">Slike</option>
+            <option value="Checkbox">Checkbox</option>
+          </select>
+        </div>
+        <div>
+          <label for="agent">Agent</label>
+          <select id="agent">
+            <option value="Jovan">Jovan</option>
+            <option value="Marija">Marija</option>
+            <option value="Tijana">Tijana</option>
+          </select>
+        </div>
       </div>
-
-      <div class="aside">
-        <small class="muted">Napomena: dodaj svoj Firebase config u kodu ispod. Možeš kasnije proširiti sa login-om (Firebase Auth) i pravilima bezbednosti.</small>
+      <div class="actions">
+        <button id="sacuvajReexport" class="btn-accent">Sačuvaj reexport</button>
+        <button id="resetReexport" type="button">Očisti formu</button>
       </div>
+      <div class="muted" id="saveStatusReexport" style="margin-top:8px"></div>
+    </section>
+
+    <!-- REALIZOVANI TERENI -->
+    <section class="card section">
+      <h2>Unos realizovanih terena</h2>
+      <div class="row">
+        <div>
+          <label for="datumRealizovan">Datum</label>
+          <input type="date" id="datumRealizovan" />
+        </div>
+        <div>
+          <label for="agentRealizovan">Agent</label>
+          <select id="agentRealizovan">
+            <option value="Jovan">Jovan</option>
+            <option value="Marija">Marija</option>
+            <option value="Tijana">Tijana</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="brojTeren">Broj terena</label>
+          <input type="number" id="brojTeren" placeholder="npr. 5" min="1"/>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="sacuvajRealizovan" class="btn-accent">Sačuvaj realizovane</button>
+        <button id="resetRealizovan" type="button">Očisti formu</button>
+      </div>
+      <div class="muted" id="saveStatusRealizovan" style="margin-top:8px"></div>
+    </section>
+
+    <!-- UKUPNO -->
+    <section class="card section">
+      <h2>Ukupan broj unetih stanova</h2>
+      <label for="ukupnoStanova">Unesi broj</label>
+      <input type="number" id="ukupnoStanova" placeholder="npr. 120" min="0" />
     </section>
   </div>
 
-  <!-- Firebase SDK (v9 compat za non-module upotrebu) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!-- DESNA KOLONA -->
+  <section class="card">
+    <div class="right-head">
+      <div class="flex">
+        <strong>Statistika</strong>
+        <span id="periodBadge" class="tag" style="margin-left:10px">—</span>
+      </div>
+      <small class="muted">Rezultati se računaju na klijentu</small>
+    </div>
 
-  <script>
-    const firebaseConfig = {
-  apiKey: "AIzaSyAOUkVLeBTltH6MdNoK74kkP-cEYAMHjc4",
-  authDomain: "statistika-d3977.firebaseapp.com",
-  projectId: "statistika-d3977",
-  storageBucket: "statistika-d3977.firebasestorage.app",
-  messagingSenderId: "243287759147",
-  appId: "1:243287759147:web:23b0abd5f4e3bdbe2e8d6e"
+    <!-- PERIOD FILTER -->
+    <div class="flex" style="gap:10px; margin:12px 18px;">
+      <label>Period:</label>
+      <select id="filterPeriod">
+        <option value="danas">Danas</option>
+        <option value="mesec">Ovaj mesec</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input type="date" id="customFrom" style="display:none" /> do
+      <input type="date" id="customTo" style="display:none" />
+      <button id="primeniFilter" class="btn-accent" style="width:auto">Primeni</button>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="muted">Ukupno reexporta</div><b id="kpiUkupno">0</b></div>
+      <div class="kpi"><div class="muted">Ugovor</div><b id="kpiUgovor">0</b></div>
+      <div class="kpi"><div class="muted">Slike</div><b id="kpiSlike">0</b></div>
+      <div class="kpi"><div class="muted">Checkbox</div><b id="kpiCheckbox">0</b></div>
+    </div>
+
+    <div class="grid">
+      <div class="stat">
+        <h3>Po agentu (reexporti)</h3>
+        <div class="big" id="poAgentu">—</div>
+        <div class="sub">Zbir po Jovan / Marija / Tijana</div>
+      </div>
+      <div class="stat">
+        <h3>Procenat reexporta</h3>
+        <div class="big" id="procenatReexporta">—</div>
+        <div class="sub">u odnosu na "Ukupan broj unetih stanova"</div>
+      </div>
+      <div class="stat">
+        <h3>Realizovani tereni (po agentu)</h3>
+        <div class="big" id="realizacijaAgent">—</div>
+        <div class="sub">Broj terena po agentu</div>
+      </div>
+    </div>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Šifra</th>
+            <th>Razlog</th>
+            <th>Agent</th>
+            <th>Broj terena</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabela"></tbody>
+      </table>
+    </div>
+
+    <div class="aside">
+      <small class="muted">Napomena: dodaj svoj Firebase config u kodu ispod.</small>
+    </div>
+  </section>
+</div>
+
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script>
+// --- FIREBASE ---
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const collReexport = db.collection('reexporti');
+const collRealizovan = db.collection('realizovaniTereni');
 
-    // Inicijalizacija
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const coll = db.collection('reexporti');
+// --- ELEMENTI ---
+const elId=id=>document.getElementById(id);
+const datumReexport = elId('datumReexport');
+const datumRealizovan = elId('datumRealizovan');
+const sifra = elId('sifra');
+const razlog = elId('razlog');
+const agent = elId('agent');
+const agentRealizovan = elId('agentRealizovan');
+const brojTeren = elId('brojTeren');
+const sacuvajReexport = elId('sacuvajReexport');
+const sacuvajRealizovan = elId('sacuvajRealizovan');
+const resetReexport = elId('resetReexport');
+const resetRealizovan = elId('resetRealizovan');
+const saveStatusReexport = elId('saveStatusReexport');
+const saveStatusRealizovan = elId('saveStatusRealizovan');
 
-    // === 2) Helperi za datume ===
-    function fmt(d){return d.toISOString().slice(0,10);} // yyyy-MM-dd
-    function startOfISOWeek(date){
-      const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-      const day = d.getUTCDay() || 7; // 1..7 (Mon..Sun)
-      if(day !== 1) d.setUTCDate(d.getUTCDate() - (day - 1));
-      return new Date(d);
-    }
-    function endOfISOWeek(date){
-      const s = startOfISOWeek(date);
-      const e = new Date(s);
-      e.setUTCDate(e.getUTCDate() + 6);
-      return e;
-    }
+const periodBadge = elId('periodBadge');
+const filterPeriod = elId('filterPeriod');
+const customFrom = elId('customFrom');
+const customTo = elId('customTo');
+const primeniFilter = elId('primeniFilter');
 
-    // === 3) UI reference ===
-    const el = id => document.getElementById(id);
-    const datum = el('datum');
-    const sifra = el('sifra');
-    const razlog = el('razlog');
-    const agent = el('agent');
-    const realizovan = el('realizovan');
-    const sacuvaj = el('sacuvaj');
-    const resetBtn = el('reset');
-    const saveStatus = el('saveStatus');
+const kpiUkupno = elId('kpiUkupno');
+const kpiUgovor = elId('kpiUgovor');
+const kpiSlike = elId('kpiSlike');
+const kpiCheckbox = elId('kpiCheckbox');
+const poAgentu = elId('poAgentu');
+const procenatReexporta = elId('procenatReexporta');
+const realizacijaAgent = elId('realizacijaAgent');
+const tabela = elId('tabela');
+const ukupnoStanova = elId('ukupnoStanova');
 
-    const tipPerioda = el('tipPerioda');
-    const datumFilter = el('datumFilter');
-    const nedeljaDatum = el('nedeljaDatum');
-    const mesec = el('mesec');
-    const od = el('od');
-    const doEl = el('do');
-    const primeniFilter = el('primeniFilter');
-    const osvezi = el('osvezi');
+// --- FORMAT DATUMA ---
+function fmt(d){return d.toISOString().slice(0,10);}
+const today=new Date();
+datumReexport.value=datumRealizovan.value=fmt(today);
 
-    const ukupnoStanova = el('ukupnoStanova');
+// --- FILTER PERIOD ---
+filterPeriod.addEventListener('change',()=>{
+  if(filterPeriod.value==='custom'){
+    customFrom.style.display='inline-block';
+    customTo.style.display='inline-block';
+  } else {
+    customFrom.style.display='none';
+    customTo.style.display='none';
+  }
+});
 
-    const periodBadge = el('periodBadge');
-    const kpiUkupno = el('kpiUkupno');
-    const kpiUgovor = el('kpiUgovor');
-    const kpiSlike = el('kpiSlike');
-    const kpiCheckbox = el('kpiCheckbox');
-    const poAgentu = el('poAgentu');
-    const procenatReexporta = el('procenatReexporta');
-    const realizacijaAgent = el('realizacijaAgent');
-    const tabela = el('tabela');
-
-    // Default vrednosti
-    const today = new Date();
-    datum.value = fmt(today);
-    datumFilter.value = fmt(today);
-    nedeljaDatum.value = fmt(today);
-    mesec.value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;
-
-    // === 4) Upis unosa ===
-    async function sacuvajUnos(){
-      const payload = {
-        datum: datum.value || fmt(new Date()),
-        sifra: (sifra.value || '').trim(),
-        razlog: razlog.value,
-        agent: agent.value,
-        realizovanTeren: !!realizovan.checked,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      if(!payload.sifra){ saveStatus.textContent = 'Unesi šifru.'; return; }
-      try{
-        await coll.add(payload);
-        saveStatus.textContent = 'Sačuvano ✓';
-        setTimeout(()=> saveStatus.textContent = '', 2000);
-        sifra.value = '';
-      }catch(e){
-        console.error(e);
-        saveStatus.textContent = 'Greška pri čuvanju.';
-      }
-    }
-
-    sacuvaj.addEventListener('click', sacuvajUnos);
-    resetBtn.addEventListener('click', () => {
-      datum.value = fmt(new Date());
-      sifra.value = '';
-      razlog.value = 'Ugovor';
-      agent.value = 'Jovan';
-      realizovan.checked = false;
-      saveStatus.textContent = '';
-    });
-
-    // === 5) Čitanje + filtriranje ===
-    function showControls(){
-      document.getElementById('poljeDan').style.display = tipPerioda.value==='dan' ? 'block':'block';
-      document.getElementById('poljaNedelja').style.display = tipPerioda.value==='nedelja' ? 'grid':'none';
-      document.getElementById('poljaMesec').style.display = tipPerioda.value==='mesec' ? 'grid':'none';
-      document.getElementById('poljaRaspon').style.display = tipPerioda.value==='raspon' ? 'grid':'none';
-    }
-    tipPerioda.addEventListener('change', showControls);
-    showControls();
-
-    function periodToRange(){
-      const t = tipPerioda.value;
-      let start, end, badge;
-      if(t==='dan'){
-        const d = new Date(datumFilter.value || fmt(new Date()));
-        start = new Date(d); end = new Date(d); badge = `Dan: ${fmt(d)}`;
-      } else if(t==='nedelja'){
-        const d = new Date(nedeljaDatum.value || fmt(new Date()));
-        start = startOfISOWeek(d); end = endOfISOWeek(d); badge = `Nedelja: ${fmt(start)}–${fmt(end)}`;
-      } else if(t==='mesec'){
-        const [y,m] = (mesec.value || `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`).split('-').map(n=>parseInt(n,10));
-        start = new Date(y, m-1, 1);
-        end = new Date(y, m, 0);
-        badge = `Mesec: ${y}-${String(m).padStart(2,'0')}`;
-      } else {
-        start = new Date(od.value || fmt(today));
-        end = new Date(doEl.value || fmt(today));
-        badge = `Raspon: ${fmt(start)}–${fmt(end)}`;
-      }
-      // normalizuj na yyyy-MM-dd stringove
-      const sStr = fmt(start), eStr = fmt(end);
-      return {startStr: sStr, endStr: eStr, badge};
-    }
-
-    async function ucitajIPrikazi(){
-      const {startStr, endStr, badge} = periodToRange();
-      periodBadge.textContent = badge;
-
-      // Dohvati sve iz kolekcije u opsegu datuma (string upit po yyyy-MM-dd)
-      const snap = await coll
-        .where('datum', '>=', startStr)
-        .where('datum', '<=', endStr)
-        .orderBy('datum', 'asc')
-        .get();
-
-      const rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderTabela(rows);
-      renderStatistika(rows);
-    }
-
-    primeniFilter.addEventListener('click', ucitajIPrikazi);
-    osvezi.addEventListener('click', ucitajIPrikazi);
-
-    // === 6) Render tabele ===
-    function renderTabela(items){
-      tabela.innerHTML = '';
-      if(items.length===0){
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 6; td.className = 'muted';
-        td.textContent = 'Nema podataka za izabrani period.';
-        tr.appendChild(td); tabela.appendChild(tr); return;
-      }
-      for(const it of items){
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${it.datum || ''}</td>
-          <td>${it.sifra || ''}</td>
-          <td>${it.razlog || ''}</td>
-          <td>${it.agent || ''}</td>
-          <td>${it.realizovanTeren ? 'Da' : 'Ne'}</td>
-          <td><button data-id="${it.id}" class="btn-danger btn-del">Obriši</button></td>
-        `;
-        tabela.appendChild(tr);
-      }
-      // Bind brisanje
-      document.querySelectorAll('.btn-del').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          const id = e.currentTarget.getAttribute('data-id');
-          if(confirm('Obrisati unos?')){
-            await coll.doc(id).delete();
-            ucitajIPrikazi();
-          }
+function filtrirajPoPeriodu(items, datumField){
+  const danas = new Date();
+  let filtered = items;
+  switch(filterPeriod.value){
+    case 'danas':
+      filtered = items.filter(i=>i[datumField]===fmt(danas));
+      periodBadge.textContent='Danas';
+      break;
+    case 'mesec':
+      const start = new Date(danas.getFullYear(), danas.getMonth(), 1);
+      const end = new Date(danas.getFullYear(), danas.getMonth()+1,0);
+      filtered = items.filter(i=>{
+        const d=new Date(i[datumField]);
+        return d>=start && d<=end;
+      });
+      periodBadge.textContent='Ovaj mesec';
+      break;
+    case 'custom':
+      if(customFrom.value && customTo.value){
+        const f=new Date(customFrom.value), t=new Date(customTo.value);
+        filtered = items.filter(i=>{
+          const d=new Date(i[datumField]);
+          return d>=f && d<=t;
         });
-      });
-    }
-
-    // === 7) Statistika ===
-    function renderStatistika(items){
-      // KPI po razlozima
-      const total = items.length;
-      const ug = items.filter(x=>x.razlog==='Ugovor').length;
-      const sl = items.filter(x=>x.razlog==='Slike').length;
-      const ch = items.filter(x=>x.razlog==='Checkbox').length;
-      kpiUkupno.textContent = total;
-      kpiUgovor.textContent = ug;
-      kpiSlike.textContent = sl;
-      kpiCheckbox.textContent = ch;
-
-      // Po agentu (reexporti)
-      const agents = ['Jovan','Marija','Tijana'];
-      const counts = Object.fromEntries(agents.map(a=>[a,0]));
-      for(const it of items){ if(counts[it.agent] !== undefined) counts[it.agent]++; }
-      poAgentu.textContent = agents.map(a=>`${a}: ${counts[a]}`).join(' • ');
-
-      // Procenat reexporta u odnosu na ukupan broj unetih stanova
-      const ukupno = parseInt(ukupnoStanova.value || '0', 10);
-      const proc = ukupno>0 ? ((total/ukupno)*100).toFixed(1)+'%' : '—';
-      procenatReexporta.textContent = proc;
-
-      // Realizovani tereni po agentu: uneto vs realizovano + procenat
-      const uneto = Object.fromEntries(agents.map(a=>[a,0]));
-      const real = Object.fromEntries(agents.map(a=>[a,0]));
-      for(const it of items){
-        if(uneto[it.agent] !== undefined){
-          uneto[it.agent]++;
-          if(it.realizovanTeren) real[it.agent]++;
-        }
+        periodBadge.textContent=`${customFrom.value} do ${customTo.value}`;
       }
-      const parts = agents.map(a=>{
-        const u = uneto[a];
-        const r = real[a];
-        const p = u>0 ? Math.round((r/u)*100) : 0;
-        return `${a}: ${r}/${u} (${p}%)`;
-      });
-      realizacijaAgent.textContent = parts.join(' • ');
-    }
+      break;
+  }
+  return filtered;
+}
 
-    // Re-render procenata kad se menja ukupno stanova
-    ukupnoStanova.addEventListener('input', ucitajIPrikazi);
+primeniFilter.addEventListener('click', ucitajIPrikazi);
 
-    // Init – učitaj odmah za današnji dan
-    ucitajIPrikazi();
-  </script>
+// --- SACUVAJ REEXPORT ---
+sacuvajReexport.addEventListener('click', async ()=>{
+  if(!sifra.value.trim()){ saveStatusReexport.textContent='Unesi šifru!'; return; }
+  await collReexport.add({
+    datum: datumReexport.value,
+    sifra: sifra.value.trim(),
+    razlog: razlog.value,
+    agent: agent.value,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  saveStatusReexport.textContent='Sačuvano ✓';
+  setTimeout(()=>saveStatusReexport.textContent='',2000);
+  sifra.value='';
+  ucitajIPrikazi();
+});
+
+// --- SACUVAJ REALIZOVANE TERENE ---
+sacuvajRealizovan.addEventListener('click', async ()=>{
+  if(!brojTeren.value || brojTeren.value<1){ saveStatusRealizovan.textContent='Unesi broj terena!'; return; }
+  await collRealizovan.add({
+    datum: datumRealizovan.value,
+    agent: agentRealizovan.value,
+    broj: parseInt(brojTeren.value),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  saveStatusRealizovan.textContent='Sačuvano ✓';
+  setTimeout(()=>saveStatusRealizovan.textContent='',2000);
+  brojTeren.value='';
+  ucitajIPrikazi();
+});
+
+// RESET FORME
+resetReexport.addEventListener('click',()=>{
+  datumReexport.value=fmt(today); sifra.value=''; razlog.value='Ugovor'; agent.value='Jovan'; saveStatusReexport.textContent='';
+});
+resetRealizovan.addEventListener('click',()=>{
+  datumRealizovan.value=fmt(today); brojTeren.value=''; agentRealizovan.value='Jovan'; saveStatusRealizovan.textContent='';
+});
+
+// --- UCITAJ I PRIKAZI ---
+async function ucitajIPrikazi(){
+  const snapR = await collReexport.orderBy('createdAt','desc').get();
+  const snapT = await collRealizovan.orderBy('createdAt','desc').get();
+
+  const reexporti = filtrirajPoPeriodu(snapR.docs.map(d=>({id:d.id,...d.data()})),'datum');
+  const tereni = filtrirajPoPeriodu(snapT.docs.map(d=>({id:d.id,...d.data()})),'datum');
+
+  renderTabela(reexporti, tereni);
+  renderStatistika(reexporti, tereni);
+}
+
+// --- TABELA ---
+function renderTabela(reexporti, tereni){
+  tabela.innerHTML='';
+  if(reexporti.length===0 && tereni.length===0){
+    const tr=document.createElement('tr');
+    const td=document.createElement('td'); td.colSpan=6; td.className='muted'; td.textContent='Nema podataka.';
+    tr.appendChild(td); tabela.appendChild(tr); return;
+  }
+  // reexporti
+  for(const it of reexporti){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${it.datum}</td><td>${it.sifra}</td><td>${it.razlog}</td><td>${it.agent}</td><td>—</td><td></td>`;
+    tabela.appendChild(tr);
+  }
+  // realizovani tereni
+  for(const it of tereni){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${it.datum}</td><td>—</td><td>Realizovan teren</td><td>${it.agent}</td><td>${it.broj}</td><td></td>`;
+    tabela.appendChild(tr);
+  }
+}
+
+// --- STATISTIKA ---
+function renderStatistika(reexporti, tereni){
+  const total= reexporti.length;
+  const ug= reexporti.filter(x=>x.razlog==='Ugovor').length;
+  const sl= reexporti.filter(x=>x.razlog==='Slike').length;
+  const ch= reexporti.filter(x=>x.razlog==='Checkbox').length;
+  kpiUkupno.textContent=total; kpiUgovor.textContent=ug; kpiSlike.textContent=sl; kpiCheckbox.textContent=ch;
+
+  const agents=['Jovan','Marija','Tijana'];
+  const counts=Object.fromEntries(agents.map(a=>[a,0]));
+  for(const it of reexporti){ if(counts[it.agent]!==undefined) counts[it.agent]++; }
+  poAgentu.textContent=agents.map(a=>`${a}: ${counts[a]}`).join(' • ');
+
+  const ukupno=parseInt(ukupnoStanova.value||'0',10);
+  procenatReexporta.textContent=ukupno>0 ? ((total/ukupno)*100).toFixed(1)+'%' : '—';
+
+  const realCounts=Object.fromEntries(agents.map(a=>[a,0]));
+  for(const it of tereni){ if(realCounts[it.agent]!==undefined) realCounts[it.agent]+=it.broj; }
+  realizacijaAgent.textContent=agents.map(a=>`${a}: ${realCounts[a]} terena`).join(' • ');
+}
+
+ukupnoStanova.addEventListener('input', ucitajIPrikazi);
+
+// --- INIT ---
+ucitajIPrikazi();
+</script>
 </body>
 </html>
